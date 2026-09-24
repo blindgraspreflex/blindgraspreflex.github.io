@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="See to Reach, Feel to Grasp: Learning a Blind Grasp Reflex for Anthropomorphic Robotic Hands."
+    />
+    <meta property="og:title" content="See to Reach, Feel to Grasp" />
+    <meta
+      property="og:description"
+      content="Learning a blind grasp reflex for anthropomorphic robotic hands."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/grasp-grid.webp" />
+    <title>See to Reach, Feel to Grasp</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="viewer.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header class="paper-header container">
+        <h1>See to Reach, Feel to Grasp: Learning a Blind Grasp Reflex for Anthropomorphic Robotic Hands</h1>
+
+        <div class="authors" aria-label="Authors">
+          <span>Alexander Alexiev<sup>1</sup></span>
+          <span>Tzu-Yuan Lin<sup>1</sup></span>
+          <span>Sang Min Kim<sup>1,2</sup></span>
+          <span>Ho Jae Lee<sup>1</sup></span>
+          <span>Yonghyeon Lee<sup>*,1,3</sup></span>
+          <span>Sangbae Kim<sup>*,1</sup></span>
+        </div>
+
+        <p class="affiliation">
+          <sup>1</sup>Biomimetic Robotics Lab, Massachusetts Institute of Technology<br />
+          <sup>2</sup>3D Vision Lab, Seoul National University<br />
+          <sup>3</sup>RoPhi Lab, Yonsei University
+        </p>
+        <p class="corresponding-authors"><sup>*</sup>Co-corresponding authors</p>
+
+        <div class="institution-logos" aria-label="Affiliated institutions">
+          <a href="https://www.mit.edu/" target="_blank" rel="noreferrer" aria-label="Massachusetts Institute of Technology">
+            <img class="mit-logo" src="assets/mit-logo.svg" alt="MIT" />
+          </a>
+          <a href="https://en.snu.ac.kr/" target="_blank" rel="noreferrer" aria-label="Seoul National University">
+            <img class="snu-logo" src="assets/snu-logo.svg" alt="Seoul National University" />
+          </a>
+          <a href="https://www.yonsei.ac.kr/en_sc/" target="_blank" rel="noreferrer" aria-label="Yonsei University">
+            <img class="yonsei-logo" src="assets/yonsei-logo.png" alt="Yonsei University" />
+          </a>
+        </div>
+
+        <div class="lab-logos" aria-label="Participating research labs">
+          <a class="lab-logo-link" href="https://biomimetics.mit.edu/" target="_blank" rel="noreferrer">
+            <span class="lab-logo-visual lab-logo-dark">
+              <img src="assets/brl-logo.png" alt="Biomimetic Robotics Lab" />
+            </span>
+            <span>Biomimetic Robotics Lab</span>
+          </a>
+          <a class="lab-logo-link" href="https://3d.snu.ac.kr/" target="_blank" rel="noreferrer">
+            <span class="lab-logo-visual">
+              <img src="assets/3dvision-logo.png" alt="3D Vision Lab" />
+            </span>
+            <span>3D Vision Lab</span>
+          </a>
+          <a class="lab-logo-link" href="https://rophi-lab.github.io/" target="_blank" rel="noreferrer">
+            <span class="lab-logo-visual lab-logo-dark">
+              <img src="assets/rophi-logo.svg" alt="RoPhi Lab" />
+            </span>
+            <span>RoPhi Lab</span>
+          </a>
+        </div>
+
+        <nav class="resource-links" aria-label="Paper resources">
+          <a href="https://www.youtube.com/watch?v=6EIIcab385g" target="_blank" rel="noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.8 4.7 12 4.7 12 4.7s-5.8 0-7.6.5a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.8.5 7.6.5 7.6.5s5.8 0 7.6-.5a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8ZM10 15.2V8.8l5.5 3.2-5.5 3.2Z"/></svg>
+            Video
+          </a>
+          <span class="resource-link unavailable" aria-label="Code coming soon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 0 1.6 1.1 1.6 1.1.9 1.6 2.4 1.1 3 .8.1-.7.4-1.1.7-1.4-2.3-.3-4.7-1.1-4.7-5A3.9 3.9 0 0 1 6.7 8.5c-.1-.3-.5-1.3.1-2.8 0 0 .9-.3 2.8 1.1A9.7 9.7 0 0 1 12 6.5a9.7 9.7 0 0 1 2.5.3c1.9-1.4 2.8-1.1 2.8-1.1.6 1.5.2 2.5.1 2.8a3.9 3.9 0 0 1 1.1 2.8c0 3.9-2.4 4.7-4.7 5 .4.3.7 1 .7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg>
+            Code (Coming Soon)
+          </span>
+          <a href="assets/paper.pdf" target="_blank">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h8l5 5v15H6V2Zm7 1.5V8h4.5M9 12h7M9 16h7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+            Paper
+          </a>
+        </nav>
+      </header>
+
+      <section class="container teaser" id="project-video" aria-label="Project video">
+        <div class="video-wrap">
+          <video
+            controls
+            playsinline
+            preload="metadata"
+            poster="assets/project-video.jpg"
+            aria-label="See to Reach, Feel to Grasp project video"
+          >
+            <source src="assets/project-video.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <h2>
+          A hand-local policy grasps using proprioception alone, while a learned grasp score
+          coordinates independently designed arm controllers.
+        </h2>
+      </section>
+
+      <section class="section container" id="abstract">
+        <h2 class="section-title">Abstract</h2>
+        <div class="abstract">
+          <p>
+            In this work, we study whether a robotic hand using proprioception alone can grasp
+            diverse objects with no visual observation. We present a modular dexterous grasping
+            architecture that separates global arm motion from local contact control. An
+            independently controlled arm guides the hand toward the object, while a reinforcement
+            learning policy grasps and stabilizes it using only hand proprioceptive feedback. We
+            call this <em>a blind grasp reflex</em>: grasping without images, object poses, or
+            geometric observations.
+          </p>
+          <p>
+            A learned stable-grasp score determines when the object is securely held, allowing the
+            arm to begin post-grasp manipulation. This separation makes grasping a reusable
+            hand-level skill that can be combined with independently designed arm controllers for
+            various manipulation tasks. Experiments in simulation and on hardware demonstrate
+            robust blind grasping across diverse objects and seamless composition with a range of
+            arm controllers. Moreover, despite never observing contact geometry, the learned grasp
+            score closely aligns with an independent physics-based measure of grasp stability. The
+            resulting approach follows a simple principle: <strong>see to reach, feel to grasp.</strong>
+          </p>
+        </div>
+      </section>
+
+      <section class="section container" id="method">
+        <h2 class="section-title">Method</h2>
+        <p class="section-intro">
+          Our framework separates global arm motion from local grasp control. The arm module sends
+          desired palm poses and a grasp-or-release command. The learned hand module returns finger
+          targets and a scalar grasp score that tells the arm when to begin manipulation.
+        </p>
+        <figure class="figure">
+          <img
+            src="assets/architecture-latest.webp"
+            alt="Overview of the modular arm and blind hand policy architecture"
+            loading="lazy"
+          />
+          <figcaption>
+            <strong>System overview.</strong> Global perception and task planning remain in the arm
+            module. The hand policy observes only a short history of joint positions and command
+            errors. A low-level velocity controller combines the arm and hand commands.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="section container" id="interactive-grasps">
+        <h2 class="section-title">Interactive 3D Grasps</h2>
+        <p class="section-intro">
+          Explore recorded simulation rollouts from different viewpoints. The arm module guides the palm to the 
+          initial object position, and when it is within range it gives the grasp enable command to the hand. Then the hand
+          policy begins grasping and when it reports a high enough grasp score the arm module lifts the palm.
+        </p>
+
+        <div class="viser-viewer">
+          <div class="viser-toolbar">
+            <label for="grasp-object">Object</label>
+            <select id="grasp-object" aria-controls="grasp-viewer-frame">
+              <option value="assets/viser/apple.html">Apple</option>
+              <option value="assets/viser/mini-soccer-ball.html">Mini soccer ball</option>
+              <option value="assets/viser/tomato-soup-can.html">Tomato soup can</option>
+              <option value="assets/viser/mustard-bottle.html">Mustard bottle</option>
+              <option value="assets/viser/rubiks-cube.html">Rubik's cube</option>
+              <option value="assets/viser/windex-bottle.html">Windex bottle</option>
+              <option value="assets/viser/bowl.html">Bowl</option>
+              <option value="assets/viser/banana.html">Banana</option>
+              <option value="assets/viser/hammer.html">Hammer</option>
+              <option value="assets/viser/phillips-screwdriver.html">Phillips screwdriver</option>
+              <option value="assets/viser/pitcher-base.html">Pitcher</option>
+              <option value="assets/viser/medium-clamp.html">Medium clamp</option>
+            </select>
+            <span class="viser-hint">Drag to orbit · Scroll to zoom</span>
+          </div>
+          <div class="viser-content">
+            <div class="viser-frame-wrap">
+              <div class="viser-loading" id="grasp-viewer-loading" aria-live="polite">
+                Loading 3D grasp…
+              </div>
+              <iframe
+                id="grasp-viewer-frame"
+                src="assets/viser/apple.html"
+                title="Interactive 3D recording of the apple grasp"
+                loading="lazy"
+                allow="fullscreen"
+              ></iframe>
+            </div>
+            <aside class="grasp-score-panel" aria-labelledby="grasp-score-title">
+              <div class="grasp-score-header">
+                <span id="grasp-score-title">Live grasp score</span>
+                <output id="grasp-score-value" aria-label="Current grasp score">0.00</output>
+              </div>
+              <canvas
+                id="grasp-score-chart"
+                role="img"
+                aria-label="Recorded grasp score over time, synchronized with the 3D replay"
+              ></canvas>
+              <div class="grasp-score-legend">
+                <span><i aria-hidden="true"></i> Grasp score</span>
+                <span>Time (s)</span>
+              </div>
+            </aside>
+          </div>
+        </div>
+        <p class="viser-note">
+          Twelve geometrically diverse grasps were selected from the full YCB evaluation set,
+          spanning fruit, a ball, containers, tools, and household objects. Each recording is
+          disturbance-free and shows more than five seconds of continuous object hold. The rollouts
+          render directly in your browser; no live simulation server is required.
+        </p>
+      </section>
+
+      <section class="section container" id="results">
+        <h2 class="section-title">Results</h2>
+        <p class="section-intro">
+          The blind grasp reflex generalizes across object sets and responds robustly when the
+          object moves after execution begins.
+        </p>
+
+        <div class="result-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Evaluation</th>
+                <th>Ours</th>
+                <th>End-to-end RL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>YCB objects grasped <span>(78 objects)</span></td>
+                <td><strong>96%</strong></td>
+                <td>98%</td>
+              </tr>
+              <tr>
+                <td>GraspXL objects grasped <span>(3,028 objects)</span></td>
+                <td><strong>95%</strong></td>
+                <td>97%</td>
+              </tr>
+              <tr>
+                <td>Dynamic grasp success</td>
+                <td><strong>92%</strong></td>
+                <td>8%</td>
+              </tr>
+              <tr>
+                <td>Object-pose generalization</td>
+                <td><strong>90%</strong></td>
+                <td>15%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="result-note">
+          The learned grasp score achieves a mean within-episode Spearman correlation of
+          <strong>+0.77</strong> with the Ferrari-Canny force-closure metric, even though the
+          deployed policy never observes the contacts used to compute it.
+        </p>
+
+        <figure class="figure figure-spaced">
+          <img
+            src="assets/grasp-grid.webp"
+            alt="The robotic hand grasping a diverse set of real-world objects"
+            loading="lazy"
+          />
+          <figcaption>
+            <strong>Blind grasping on hardware.</strong> The same frozen hand policy grasps objects
+            with different sizes, shapes, materials, and surface properties without observing their
+            geometry.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="section container" id="demonstrations">
+        <h2 class="section-title">Demonstrations</h2>
+        <p class="section-intro">
+          The following videos show the learned grasp signal, transfer across robot configurations,
+          blind grasps behind occluders, reactive grasping, lightbulb screwing, and
+          language-conditioned manipulation. Every demonstration uses the same frozen hand policy.
+        </p>
+
+        <section class="demo-group" aria-labelledby="score-demo-title">
+          <h3 class="demo-group-title" id="score-demo-title">Learned Grasp Score</h3>
+          <article class="demo-card demo-card-wide">
+            <video controls playsinline preload="metadata" poster="assets/videos/grasp-score.jpg">
+              <source src="assets/videos/grasp-score.mp4" type="video/mp4" />
+            </video>
+            <h4>Grasp score and force closure</h4>
+            <p>
+              A simulation rollout shown alongside the learned grasp score and the independent
+              Ferrari-Canny force-closure metric. Both signals rise as the grasp forms, fall after
+              an external disturbance, and recover during re-grasping.
+            </p>
+          </article>
+        </section>
+
+        <section class="demo-group" aria-labelledby="transfer-demo-title">
+          <h3 class="demo-group-title" id="transfer-demo-title">Arm-Agnostic Transfer</h3>
+          <p class="demo-group-intro">
+            The policy observes only the hand, so the same checkpoint can be reused across arm
+            kinematics and mounting configurations without retraining.
+          </p>
+          <div class="demo-grid">
+            <article class="demo-card">
+              <video controls playsinline preload="metadata" poster="assets/videos/arm-transfer.jpg">
+                <source src="assets/videos/arm-transfer.mp4" type="video/mp4" />
+              </video>
+              <h4>Four robot arms</h4>
+              <p>
+                The same hand policy grasps with a Flexiv Rizon 4, Franka Panda, UR5e, and Kinova
+                Gen3 in simulation.
+              </p>
+            </article>
+            <article class="demo-card">
+              <video controls playsinline preload="metadata" poster="assets/videos/mount-transfer.jpg">
+                <source src="assets/videos/mount-transfer.mp4" type="video/mp4" />
+              </video>
+              <h4>Four mounting orientations</h4>
+              <p>
+                The policy remains effective with the arm mounted on the floor, side, wall, and
+                ceiling - configurations not encountered during training.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="demo-group" aria-labelledby="blind-demo-title">
+          <h3 class="demo-group-title" id="blind-demo-title">Blind Grasping Behind Occluders</h3>
+          <p class="demo-group-intro">
+            We show that our method truly relies on feel rather than sight by asking a VLM to grasp
+            an object hidden behind an occluder.
+          </p>
+          <div class="demo-grid">
+            <article class="demo-card">
+              <video controls playsinline preload="metadata" poster="assets/videos/hidden-cracker-box.jpg">
+                <source src="assets/videos/hidden-cracker-box.mp4" type="video/mp4" />
+              </video>
+              <h4>Behind a cracker box</h4>
+              <p>The hand searches behind the box and secures an object hidden from the camera.</p>
+            </article>
+            <article class="demo-card">
+              <video controls playsinline preload="metadata" poster="assets/videos/hidden-blue-cup.jpg">
+                <source src="assets/videos/hidden-blue-cup.mp4" type="video/mp4" />
+              </video>
+              <h4>Behind a blue cup</h4>
+              <p>The robot reaches past the visible cup and grasps the occluded target behind it.</p>
+            </article>
+            <article class="demo-card">
+              <video controls playsinline preload="metadata" poster="assets/videos/hidden-laptop.jpg">
+                <source src="assets/videos/hidden-laptop.mp4" type="video/mp4" />
+              </video>
+              <h4>Behind a laptop</h4>
+              <p>An open laptop fully blocks the target while the hand acquires it through contact.</p>
+            </article>
+            <article class="demo-card">
+              <video controls playsinline preload="metadata" poster="assets/videos/hidden-soccer-ball.jpg">
+                <source src="assets/videos/hidden-soccer-ball.mp4" type="video/mp4" />
+              </video>
+              <h4>Behind a soccer ball</h4>
+              <p>The hand grasps a pair of soccer shoes while the ball obscures the contact region.</p>
+            </article>
+            <article class="demo-card">
+              <video controls playsinline preload="metadata" poster="assets/videos/hidden-helmet.jpg">
+                <source src="assets/videos/hidden-helmet.mp4" type="video/mp4" />
+              </video>
+              <h4>Behind a helmet</h4>
+              <p>The robot retrieves a measuring tape hidden behind the helmet.</p>
+            </article>
+            <article class="demo-card">
+              <video controls playsinline preload="metadata" poster="assets/videos/hidden-blocks-box.jpg">
+                <source src="assets/videos/hidden-blocks-box.mp4" type="video/mp4" />
+              </video>
+              <h4>Behind a building-block box</h4>
+              <p>The hand finds and lifts a hidden toy in a cluttered tabletop scene.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="demo-group" aria-labelledby="reactive-demo-title">
+          <h3 class="demo-group-title" id="reactive-demo-title">Reactive Grasping</h3>
+          <p class="demo-group-intro">
+            Here, another arm controller uses SAM 2 to track objects in real time while the hand
+            runs the same frozen blind-grasping policy. State-of-the-art reinforcement-learning
+            grasping methods typically learn arm and hand control together, limiting the entire
+            system to behaviors seen during training. Our method separates the two, enabling
+            reliable grasping while the arm is controlled by any module—not only the reach-and-lift
+            controller used during training.
+          </p>
+          <article class="demo-card demo-card-wide">
+            <video controls playsinline preload="metadata" poster="assets/videos/reactive-lego.jpg">
+              <source src="assets/videos/reactive-lego.mp4" type="video/mp4" />
+            </video>
+            <h4>Moving Lego pick-and-place</h4>
+          </article>
+        </section>
+
+        <section class="demo-group" aria-labelledby="vlm-demo-title">
+          <h3 class="demo-group-title" id="vlm-demo-title">Language-Conditioned Manipulation</h3>
+          <p class="demo-group-intro">
+            A VLM-guided pick-and-place controller directs the arm while the hand runs the blind,
+            proprioception-only grasping policy. The arm approaches the pickup position supplied by
+            the VLM and, once within range, instructs the hand to begin grasping. Only after the hand
+            returns a sufficiently high grasp score does the arm proceed to the placement position,
+            while the hand maintains the grasp throughout the motion. The arm then instructs the
+            hand to release, placing the object. These demonstrations show the hand policy grasping
+            objects at heights never encountered during training and producing both power and pinch
+            grasps across a diverse set of objects.
+          </p>
+          <div class="demo-grid">
+            <article class="demo-card">
+              <video controls playsinline preload="metadata" poster="assets/videos/vlm-animals.jpg">
+                <source src="assets/videos/vlm-animals.mp4" type="video/mp4" />
+              </video>
+              <h4>Animals and packages</h4>
+              <p>
+                Sequential commands place a sloth toy, a cheetah toy, and a gelatin box into the
+                blue bin.
+              </p>
+            </article>
+            <article class="demo-card">
+              <video controls playsinline preload="metadata" poster="assets/videos/vlm-electronics.jpg">
+                <source src="assets/videos/vlm-electronics.mp4" type="video/mp4" />
+              </video>
+              <h4>Electronics and tools</h4>
+              <p>
+                The system places tape in a bin, a yellow switch in a helmet, and an orange voltage
+                meter on a white box.
+              </p>
+            </article>
+            <article class="demo-card">
+              <video controls playsinline preload="metadata" poster="assets/videos/vlm-fruit.jpg">
+                <source src="assets/videos/vlm-fruit.mp4" type="video/mp4" />
+              </video>
+              <h4>Fruit sorting</h4>
+              <p>
+                Natural-language instructions place a pumpkin on a plate, a yellow apple in the
+                green bowl, and a green apple in the blue bowl.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="demo-group" aria-labelledby="lightbulb-demo-title">
+          <h3 class="demo-group-title" id="lightbulb-demo-title">Lightbulb Screwing</h3>
+          <p class="demo-group-intro">
+            The arm begins rotating only after the hand's learned grasp score indicates that the
+            lightbulb is secure. The hand remains active during sustained wrist motion, then
+            releases between turns so the screwing sequence can repeat.
+          </p>
+          <article class="demo-card demo-card-wide">
+            <video controls playsinline preload="metadata" poster="assets/videos/lightbulb-screwing.jpg">
+              <source src="assets/videos/lightbulb-screwing.mp4" type="video/mp4" />
+            </video>
+            <h4>Grasp-conditioned manipulation</h4>
+          </article>
+        </section>
+      </section>
+
+      <section class="section container" id="hardware">
+        <h2 class="section-title">Real-World Objects</h2>
+        <p class="section-intro">
+          We qualitatively evaluate the system on 29 real-world objects spanning toys, tools,
+          containers, deformable items, and irregular shapes. The same policy successfully grasps
+          every object shown below.
+        </p>
+        <figure class="figure">
+          <img
+            src="assets/objects.webp"
+            alt="Twenty-nine real-world objects used in hardware experiments"
+            loading="lazy"
+          />
+          <figcaption>The 29-object hardware evaluation set.</figcaption>
+        </figure>
+        <div class="demo-grid hardware-video-grid">
+          <article class="demo-card">
+            <video controls playsinline preload="metadata" poster="assets/videos/realworld-small-rigid.jpg">
+              <source src="assets/videos/realworld-small-rigid.mp4" type="video/mp4" />
+            </video>
+            <h4>Small, rigid, and block-like objects</h4>
+            <p>
+              Blind grasps across compact toys, tools, and angular objects with varied contact
+              geometry.
+            </p>
+          </article>
+          <article class="demo-card">
+            <video controls playsinline preload="metadata" poster="assets/videos/realworld-round-cylindrical.jpg">
+              <source src="assets/videos/realworld-round-cylindrical.mp4" type="video/mp4" />
+            </video>
+            <h4>Round and cylindrical objects</h4>
+            <p>
+              The same hand policy stabilizes spherical and cylindrical objects spanning several
+              sizes and surface properties.
+            </p>
+          </article>
+          <article class="demo-card">
+            <video controls playsinline preload="metadata" poster="assets/videos/realworld-containers-packages.jpg">
+              <source src="assets/videos/realworld-containers-packages.mp4" type="video/mp4" />
+            </video>
+            <h4>Containers and packages</h4>
+            <p>
+              Hardware trials with bottles, cartons, and packaged goods demonstrate reliable
+              contact-driven grasp acquisition.
+            </p>
+          </article>
+          <article class="demo-card">
+            <video controls playsinline preload="metadata" poster="assets/videos/realworld-soft-irregular.jpg">
+              <source src="assets/videos/realworld-soft-irregular.mp4" type="video/mp4" />
+            </video>
+            <h4>Soft and irregular objects</h4>
+            <p>
+              The hand adapts online to deformable and asymmetric objects without observing their
+              shape or contact geometry.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <footer class="footer container">
+        <p>
+          This project page accompanies “See to Reach, Feel to Grasp: Learning a Blind Grasp
+          Reflex for Anthropomorphic Robotic Hands.”
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>
