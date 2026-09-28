@@ -4,6 +4,22 @@ const loadingMessage = document.querySelector("#grasp-viewer-loading");
 const scoreCanvas = document.querySelector("#grasp-score-chart");
 const scoreValue = document.querySelector("#grasp-score-value");
 
+// Muted playback is permitted by modern autoplay policies. Calling play() explicitly
+// also starts videos that browsers defer merely because they begin below the fold.
+document.querySelectorAll("video").forEach((video) => {
+  video.defaultMuted = true;
+  video.muted = true;
+
+  const startPlayback = () => {
+    video.play().catch(() => {
+      // Keep the native controls available if a browser or device blocks autoplay.
+    });
+  };
+
+  if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) startPlayback();
+  else video.addEventListener("loadeddata", startPlayback, { once: true });
+});
+
 if (objectSelect && viewerFrame && loadingMessage && scoreCanvas && scoreValue) {
   const objectTitles = {
     "assets/viser/apple.html": "apple",
